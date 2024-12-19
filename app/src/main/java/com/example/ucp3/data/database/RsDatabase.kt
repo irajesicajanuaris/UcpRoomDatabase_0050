@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.ucp3.data.dao.DokterDao
+import com.example.ucp3.data.dao.JadwalDao
 import com.example.ucp3.data.entity.Dokter
+import com.example.ucp3.data.entity.Jadwal
 
-@Database(entities = [Dokter::class], version = 1, exportSchema = false)
+@Database(entities = [Dokter::class, Jadwal::class], version = 1, exportSchema = false)
 abstract class RsDatabase : RoomDatabase() {
-    //mendefinisikan fungsi untuk mengakses data Dokter
+    //mendefinisikan fungsi untuk mengakses data Dokter dan jadwal
     abstract fun dokterDao(): DokterDao
+    abstract fun jadwalDao(): JadwalDao
 
     companion object{
         @Volatile // memastikan bahwa nilai variabel instance selalu sama di semua
