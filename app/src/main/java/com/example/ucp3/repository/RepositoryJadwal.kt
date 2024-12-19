@@ -1,4 +1,4 @@
-package com.example.ucp3.data.repository
+package com.example.ucp3.repository
 
 import com.example.ucp3.data.entity.Jadwal
 import kotlinx.coroutines.flow.Flow
