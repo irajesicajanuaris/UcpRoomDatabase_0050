@@ -14,7 +14,7 @@ interface JadwalDao {
     suspend fun insertJadwal(jadwal: Jadwal)
 
     //getAllJadwal
-    @Query("SELECT * FROM jadwal ORDER BY namaDokter ASC")
+    @Query("SELECT * FROM jadwal ORDER BY namaPasien ASC")
     fun getAllJadwal(): Flow<List<Jadwal>>
 
     //getJadwal
