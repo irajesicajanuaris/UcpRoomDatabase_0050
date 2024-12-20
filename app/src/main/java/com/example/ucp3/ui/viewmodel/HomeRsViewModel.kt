@@ -21,7 +21,7 @@ class HomeRsViewModel (
         .filterNotNull()
         .map {
             HomeUiState(
-                listMhs = it.toList(),
+                listDokter = it.toList(),
                 isLoading = false,
             )
         }
@@ -48,7 +48,7 @@ class HomeRsViewModel (
 }
 
 data class HomeUiState(
-    val listMhs: List<Dokter> = listOf(),
+    val listDokter: List<Dokter> = listOf(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String = ""
