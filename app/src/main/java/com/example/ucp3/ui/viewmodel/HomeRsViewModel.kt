@@ -17,37 +17,37 @@ class HomeRsViewModel (
     private val repositoryDokter: RepositoryDokter
 ): ViewModel() {
 
-    val homeUiState: StateFlow<HomeUiState> = repositoryDokter.getAllDokter()
+    val homeUiState: StateFlow<HomeRsUiState> = repositoryDokter.getAllDokter()
         .filterNotNull()
         .map {
-            HomeUiState(
+            HomeRsUiState(
                 listDokter = it.toList(),
                 isLoading = false,
             )
         }
         .onStart {
-            emit(HomeUiState(isLoading = true))
+            emit(HomeRsUiState(isLoading = true))
             delay(900)
         }
         .catch {
             emit(
-                HomeUiState(
+                HomeRsUiState(
                     isLoading = false,
                     isError = true,
-                    errorMessage = it.message ?: "Terjadi Kesalahan"
+                    errorMessage = it.message ?: "Terjadi Kesalahan",
                 )
             )
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = HomeUiState(
-                isLoading = true,
+            initialValue = HomeRsUiState(
+                isLoading = true
             )
         )
 }
 
-data class HomeUiState(
+data class HomeRsUiState(
     val listDokter: List<Dokter> = listOf(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,

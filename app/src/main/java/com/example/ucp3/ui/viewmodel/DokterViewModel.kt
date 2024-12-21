@@ -30,7 +30,7 @@ class DokterViewModel(
             nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
             spesialis = if (event.spesialis.isNotEmpty()) null else "Spesialis tidak boleh kosong",
             klinik = if (event.klinik.isNotEmpty()) null else "Klinik tidak boleh kosong",
-            noHp = if (event.noHp.isNotEmpty()) null else "No Hp tidak boleh kosong",
+            noHpDokter = if (event.noHpDokter.isNotEmpty()) null else "No Hp tidak boleh kosong",
             jamKerja = if (event.jamKerja.isNotEmpty()) null else "Jam Kerja tidak boleh kosong",
 
             )
@@ -82,7 +82,7 @@ data class FormErrorState(
     val nama: String? = null,
     val spesialis: String? = null,
     val klinik: String? = null,
-    val noHp: String? = null,
+    val noHpDokter: String? = null,
     val jamKerja: String? = null,
 ){
     fun isvalid(): Boolean{
@@ -90,26 +90,26 @@ data class FormErrorState(
                 && nama == null
                 && spesialis == null
                 && klinik == null
-                && noHp == null
+                && noHpDokter == null
                 && jamKerja == null
     }
 }
 
 data class DokterEvent(
-    val idDokter: String,
-    val nama: String,
-    val spesialis: String,
-    val klinik: String,
-    val noHp: String,
-    val jamKerja: String
+    val idDokter: String = "",
+    val nama: String = "",
+    val spesialis: String = "",
+    val klinik: String = "",
+    val noHpDokter: String = "",
+    val jamKerja: String = ""
 )
 
 //menyimpan input form ke dalam entity
-fun DokterEvent.toDokterEntity(): Dokter = Dokter (
+fun DokterEvent.toDokterEntity(): Dokter = Dokter(
     idDokter = idDokter,
     nama = nama,
     spesialis = spesialis,
     klinik = klinik,
-    noHp = noHp,
+    noHpDokter = noHpDokter,
     jamKerja = jamKerja
 )
