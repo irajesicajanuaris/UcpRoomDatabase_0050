@@ -11,8 +11,8 @@ data class Jadwal(
     val namaDokter: String,
     val namaPasien: String,
     val noHpPasien: String,
-    val TanggalKonsultasi: String,
-    val Status: String
+    val tanggalKonsultasi: String,
+    val status: String
 
 )
 
