@@ -13,7 +13,7 @@ class DokterViewModel(
     private val repositoryDokter: RepositoryDokter
 ) : ViewModel(){
 
-    var uiState by mutableStateOf(DokterUIState())
+    var uiState by mutableStateOf(DokteruiState())
 
     //memperbarui state berdasarkan input pengguna
     fun updateState(DokterEvent: DokterEvent){
@@ -25,7 +25,7 @@ class DokterViewModel(
     //validasi data input pengguna
     private fun validateFields(): Boolean{
         val event = uiState.dokterEvent
-        val errorState = FormErrorState(
+        val errorState = FormErrorStateDokter(
             idDokter = if (event.idDokter.isNotEmpty()) null else "Id Dokter tidak boleh kosong",
             nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
             spesialis = if (event.spesialis.isNotEmpty()) null else "Spesialis tidak boleh kosong",
@@ -50,7 +50,7 @@ class DokterViewModel(
                     uiState = uiState.copy(
                         snackbarMessage = "Data Berhasil disimpan",
                         dokterEvent = DokterEvent(), // Reset input form
-                        isEntryValid = FormErrorState() // Reset error state
+                        isEntryValid = FormErrorStateDokter() // Reset error state
                     )
                 } catch (e: Exception){
                     uiState = uiState.copy(
@@ -71,13 +71,13 @@ class DokterViewModel(
 }
 
 
-data class DokterUIState(
+data class DokteruiState(
     val dokterEvent: DokterEvent = DokterEvent(),
-    val isEntryValid: FormErrorState = FormErrorState(),
+    val isEntryValid: FormErrorStateDokter = FormErrorStateDokter(),
     val snackbarMessage: String? = null,
 )
 
-data class FormErrorState(
+data class FormErrorStateDokter(
     val idDokter: String? = null,
     val nama: String? = null,
     val spesialis: String? = null,
