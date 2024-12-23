@@ -19,7 +19,7 @@ interface JadwalDao {
 
     //getJadwal
     @Query("SELECT * FROM jadwal WHERE idJadwal = :idJadwal")
-    fun getJadwal(idJadwal: String): Flow<Jadwal>
+    fun getJadwal(idJadwal: Int): Flow<Jadwal>
 
     //deleteJadwal
     @Delete
