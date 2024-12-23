@@ -24,7 +24,7 @@ abstract class RsDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context.applicationContext,
                     RsDatabase::class.java, //class database
-                    "RsDatabase" // Nama database
+                    "RsDatabase1" // Nama database
                 )
                     .build().also { Instance = it }
             })
