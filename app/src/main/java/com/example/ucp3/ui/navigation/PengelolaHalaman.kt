@@ -21,6 +21,7 @@ import com.example.ucp3.ui.View.Jadwal.UpdateJadwalView
 @Composable
 fun PengelolaHalaman(
     navController: NavHostController = rememberNavController(),
+    onClick: () -> Unit = { },
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -37,7 +38,11 @@ fun PengelolaHalaman(
                 onSeeJadwal = {
                     navController.navigate(DestinasiHomeJadwal.route)
                 },
-                modifier = Modifier
+                onSeeDokter = {
+                    navController.navigate(DestinasiHomeDokter.route)
+                },
+                onClick = {},
+                modifier = modifier
             )
         }
 
@@ -88,11 +93,11 @@ fun PengelolaHalaman(
             DestinasiDetail.routesWithArg,
             arguments = listOf(
                 navArgument(DestinasiDetail.IdJadwal){
-                    type = NavType.StringType
+                    type = NavType.IntType
                 }
             )
         ){
-            val noJdwl = it.arguments?.getString(DestinasiDetail.IdJadwal)
+            val noJdwl = it.arguments?.getInt(DestinasiDetail.IdJadwal)
             noJdwl?.let { noJdwl ->
                 DetailJadwalView(
                     onBack = {
@@ -112,7 +117,7 @@ fun PengelolaHalaman(
             DestinasiUpdate.routesWithArg,
             arguments = listOf(
                 navArgument(DestinasiUpdate.IdJadwal){
-                    type = NavType.StringType
+                    type = NavType.IntType
                 }
             )
         ){
