@@ -13,34 +13,34 @@ object PenyediaViewModel{
     val Factory = viewModelFactory {
         initializer {
             DokterViewModel(
-                rsApp().containerApp.repositoryDokter
+                rsApp().containerApp.repository
             )
         }
         initializer {
             HomeRsViewModel(
-                rsApp().containerApp.repositoryDokter
+                rsApp().containerApp.repository
             )
         }
         initializer {
             JadwalViewModel(
-                rsApp().containerApp.repositoryJadwal
+                rsApp().containerApp.repository
             )
         }
         initializer {
             HomeJadwalViewModel(
-                rsApp().containerApp.repositoryJadwal
+                rsApp().containerApp.repository
             )
         }
         initializer {
             DetailJadwalViewModel(
                 createSavedStateHandle(),
-                rsApp().containerApp.repositoryJadwal
+                rsApp().containerApp.repository
             )
         }
         initializer {
             UpdateJadwalViewModel(
                 createSavedStateHandle(),
-                rsApp().containerApp.repositoryJadwal
+                rsApp().containerApp.repository
             )
         }
     }

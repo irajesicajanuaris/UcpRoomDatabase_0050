@@ -5,16 +5,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ucp3.data.entity.Dokter
 import com.example.ucp3.data.entity.Jadwal
-import com.example.ucp3.repository.RepositoryJadwal
+import com.example.ucp3.repository.Repository
 import kotlinx.coroutines.launch
 
 
 class JadwalViewModel(
-    private val repositoryJadwal: RepositoryJadwal
+    private val repository: Repository
 ) : ViewModel(){
 
     var uiState by mutableStateOf(JadwalUIState())
+
+    init {
+        viewModelScope.launch {
+            try {
+                repository.getAllDokter().collect { dokterList ->
+                    uiState = uiState.copy(dokterList = dokterList)
+                }
+            } catch (e: Exception) {
+                uiState = uiState.copy(snackbarMessage = "Gagal memuat daftar dokter")
+            }
+        }
+    }
 
     //memperbarui state berdasarkan input pengguna
     fun updateState(JadwalEvent: JadwalEvent){
@@ -27,7 +40,6 @@ class JadwalViewModel(
     private fun validateFields(): Boolean{
         val event = uiState.jadwalEvent
         val errorState = FormJadwalErrorState(
-            idJadwal = if (event.idJadwal.isNotEmpty()) null else "id Jadwal tidak boleh kosong",
             namaDokter = if (event.namaDokter.isNotEmpty()) null else "Nama Dokter tidak boleh kosong",
             namaPasien = if (event.namaPasien.isNotEmpty()) null else "Nama Pasien tidak boleh kosong",
             noHpPasien = if (event.noHpPasien.isNotEmpty()) null else "No Hp Pasien tidak boleh kosong",
@@ -47,7 +59,7 @@ class JadwalViewModel(
         if (validateFields()) {
             viewModelScope.launch {
                 try {
-                    repositoryJadwal.insertJadwal(currentEvent.toJadwalEntity())
+                    repository.insertJadwal(currentEvent.toJadwalEntity())
                     uiState = uiState.copy(
                         snackbarMessage = "Data Berhasil disimpan",
                         jadwalEvent = JadwalEvent(), // Reset input form
@@ -74,12 +86,12 @@ class JadwalViewModel(
 
 data class JadwalUIState(
     val jadwalEvent: JadwalEvent = JadwalEvent(),
+    val dokterList: List<Dokter> = emptyList(),
     val isEntryValid: FormJadwalErrorState = FormJadwalErrorState(),
     val snackbarMessage: String? = null,
 )
 
 data class FormJadwalErrorState(
-    val idJadwal: String? = null,
     val namaDokter: String? = null,
     val namaPasien: String? = null,
     val noHpPasien: String? = null,
@@ -87,8 +99,7 @@ data class FormJadwalErrorState(
     val status: String? = null,
 ){
     fun isvalid(): Boolean{
-        return idJadwal == null
-                && namaDokter == null
+        return  namaDokter == null
                 && namaPasien == null
                 && noHpPasien == null
                 && tanggalKonsultasi == null
@@ -97,7 +108,7 @@ data class FormJadwalErrorState(
 }
 
 data class JadwalEvent(
-    val idJadwal: String = "",
+    val idJadwal: Int = 0,
     val namaDokter: String = "",
     val namaPasien: String = "",
     val noHpPasien: String = "",

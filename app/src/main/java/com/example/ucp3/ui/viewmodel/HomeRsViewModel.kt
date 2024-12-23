@@ -3,7 +3,7 @@ package com.example.ucp3.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp3.data.entity.Dokter
-import com.example.ucp3.repository.RepositoryDokter
+import com.example.ucp3.repository.Repository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 class HomeRsViewModel (
-    private val repositoryDokter: RepositoryDokter
+    private val repository: Repository
 ): ViewModel() {
 
-    val homeUiState: StateFlow<HomeRsUiState> = repositoryDokter.getAllDokter()
+    val homeUiState: StateFlow<HomeRsUiState> = repository.getAllDokter()
         .filterNotNull()
         .map {
             HomeRsUiState(

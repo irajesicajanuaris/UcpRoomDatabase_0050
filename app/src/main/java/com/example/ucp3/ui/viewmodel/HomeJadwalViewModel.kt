@@ -3,7 +3,7 @@ package com.example.ucp3.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp3.data.entity.Jadwal
-import com.example.ucp3.repository.RepositoryJadwal
+import com.example.ucp3.repository.Repository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.stateIn
 
 
 class HomeJadwalViewModel (
-    private val repositoryJadwal: RepositoryJadwal
+    private val repository: Repository
 ): ViewModel() {
 
-    val homeJadwalUiState: StateFlow<HomeJadwalUiState> = repositoryJadwal.getAllJadwal()
+    val homeUiState: StateFlow<HomeJadwalUiState> = repository.getAllJadwal()
         .filterNotNull()
         .map {
             HomeJadwalUiState(

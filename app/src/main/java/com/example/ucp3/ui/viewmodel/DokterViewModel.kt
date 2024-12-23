@@ -6,11 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp3.data.entity.Dokter
-import com.example.ucp3.repository.RepositoryDokter
+import com.example.ucp3.repository.Repository
 import kotlinx.coroutines.launch
 
 class DokterViewModel(
-    private val repositoryDokter: RepositoryDokter
+    private val repository: Repository
 ) : ViewModel(){
 
     var uiState by mutableStateOf(DokteruiState())
@@ -26,14 +26,12 @@ class DokterViewModel(
     private fun validateFields(): Boolean{
         val event = uiState.dokterEvent
         val errorState = FormErrorStateDokter(
-            idDokter = if (event.idDokter.isNotEmpty()) null else "Id Dokter tidak boleh kosong",
             nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
             spesialis = if (event.spesialis.isNotEmpty()) null else "Spesialis tidak boleh kosong",
             klinik = if (event.klinik.isNotEmpty()) null else "Klinik tidak boleh kosong",
             noHpDokter = if (event.noHpDokter.isNotEmpty()) null else "No Hp tidak boleh kosong",
-            jamKerja = if (event.jamKerja.isNotEmpty()) null else "Jam Kerja tidak boleh kosong",
-
-            )
+            jamKerja = if (event.jamKerja.isNotEmpty()) null else "Jam Kerja tidak boleh kosong"
+        )
 
         uiState = uiState.copy(isEntryValid = errorState)
         return errorState.isvalid()
@@ -46,7 +44,7 @@ class DokterViewModel(
         if (validateFields()) {
             viewModelScope.launch {
                 try {
-                    repositoryDokter.insertDokter(currentEvent.toDokterEntity())
+                    repository.insertDokter(currentEvent.toDokterEntity())
                     uiState = uiState.copy(
                         snackbarMessage = "Data Berhasil disimpan",
                         dokterEvent = DokterEvent(), // Reset input form
@@ -78,7 +76,6 @@ data class DokteruiState(
 )
 
 data class FormErrorStateDokter(
-    val idDokter: String? = null,
     val nama: String? = null,
     val spesialis: String? = null,
     val klinik: String? = null,
@@ -86,8 +83,7 @@ data class FormErrorStateDokter(
     val jamKerja: String? = null,
 ){
     fun isvalid(): Boolean{
-        return idDokter == null
-                && nama == null
+        return  nama == null
                 && spesialis == null
                 && klinik == null
                 && noHpDokter == null
@@ -96,7 +92,7 @@ data class FormErrorStateDokter(
 }
 
 data class DokterEvent(
-    val idDokter: String = "",
+    val idDokter: Int = 0,
     val nama: String = "",
     val spesialis: String = "",
     val klinik: String = "",
